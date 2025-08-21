@@ -60,5 +60,105 @@ HTTP статус: `401 Unauthorized`
 }
 
 
+## 🐞 Примеры SQL запросов
 
 
+--1) Выбрать фамилии и имена всех сотрудников, фамилия (Lastname) которых начинается на гласную букву
+
+SELECT e.FirstName,  e.LastName  
+From Employee e 
+WHERE e.LastName LIKE 'A%'
+   OR e.LastName LIKE 'E%'
+   OR e.LastName LIKE 'I%'
+   OR e.LastName LIKE 'O%'
+   OR e.LastName LIKE 'U%';
+
+
+--2) Выбрать идентификаторы всех должностей, у которых описание начинается с 'Sales'
+
+SELECT e.EmployeeId 
+From Employee e 
+WHERE e.Title LIKE 'Sales%'
+
+--3) Выбрать всех сотрудников, у которых номер телефона  заканчивается на 3.
+
+SELECT e.EmployeeId, e.FirstName, LastName , e.Title, e.Phone
+From Employee e 
+WHERE e.Phone LIKE '%3'
+
+--5) Выбрать всех сотрудников с идентификаторами между 2 и 7
+
+SELECT e.EmployeeId, e.FirstName, LastName , e.Title
+From Employee e 
+WHERE e.EmployeeId between 3 and 6;
+
+--Выбрала 3 и 6, т.к запрсо был между 2 и 7 не включая.
+
+--6) Выбрать всех сотрудников, подчиняющихся сотрудникам с идентификаторами 2, 6
+
+SELECT e.EmployeeId, e.FirstName, LastName , e.Title
+From Employee e 
+WHERE e.ReportsTo IN (2, 6);
+
+
+--7) Выбрать всех сотрудников, у которых идентификатор находится в диапазоне от 2 до 5 включительно.
+
+SELECT e.EmployeeId, e.FirstName, LastName , e.Title
+From Employee e 
+WHERE e.EmployeeId between 2 and 5;
+
+
+---  Операторы манипуляции данными
+
+– 8) Добавить нового сотрудника (имя, фамилия)  в таблицу Employee на должность "Courier".
+
+INSERT 
+INTO Employee (FirstName, LastName, Title)
+VALUES ('Zee', 'Zoo', 'Courier')
+
+
+– 9) Удалить "созданного" (в задаче 8) сотрудника
+
+DELETE 
+from Employee   
+where EmployeeId=9
+
+--10) Добавить нового сотрудника с фамилией 'John', именем 'Doe' и адресом электронной почты          'johndoe@example.com' в таблицу Employee.
+
+INSERT 
+INTO Employee (FirstName, LastName, Email )
+VALUES ('Doe', 'John', 'johndoe@example.com')
+
+--11) Изменить имя нового сотрудника (из задачи 10) на ”'Bond-07”
+
+UPDATE Employee 
+SET FirstName ='Bond-07'
+WHERE  EmployeeId=9
+
+---Условные операторы AND, OR, NOT
+
+--12) Выбрать всех сотрудников,для которых одновременно выполняются условия : фамилия начинается на 'J' и адрес электронной почты содержит 'doe'.
+
+SELECT FirstName ,e.LastName, e.Title
+from Employee e
+WHERE LastName like 'J%' and Email like '%doe%'
+
+--13) Выбрать сотрудников, которые не работают в отделе "IT Staff"
+
+SELECT e.FirstName ,e.LastName, e.Title
+from Employee e
+WHERE Title NOT LIKE 'IT Staff'
+
+--14) Выбрать сотрудников, работающих в должности "IT Manager" или живущих в “Edmonton"
+
+SELECT e.FirstName ,e.LastName, e.Title
+from Employee e
+WHERE Title LIKE '%IT Manager%' or  City  like  'Edmonton'
+
+--15) Выбрать все должности с идентификаторами или 1 или 2 или 4.
+
+SELECT e.EmployeeId, e.FirstName, LastName , e.Title
+From Employee e 
+WHERE e.EmployeeId=1 
+or e.EmployeeId=2
+or e.EmployeeId =4 ;
